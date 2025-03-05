@@ -46,75 +46,78 @@ if (isset($_GET['error'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chỉnh sửa thuốc</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        form {
-            width: 400px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-        }
-        button {
-            background-color: blue;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            opacity: 0.8;
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h2>✏️ Chỉnh sửa thuốc: <?= htmlspecialchars($medicine['tenthuoc']) ?></h2>
+<body class="container mt-4">
+    <h2 class="text-center">✏️ Chỉnh sửa thuốc: <?= htmlspecialchars($medicine['tenthuoc']) ?></h2>
     <?php if (!empty($error)): ?>
-        <p class="error"><?= $error ?></p>
+        <div class="alert alert-danger" role="alert">
+            <?= $error ?>
+        </div>
     <?php endif; ?>
-    <form action="/medicine/edit/<?= $medicine['mathuoc'] ?>" method="POST">
-        <input type="text" name="tenthuoc" value="<?= htmlspecialchars($medicine['tenthuoc']) ?>" placeholder="Tên thuốc" required>
-        <input type="text" name="congdung" value="<?= htmlspecialchars($medicine['congdung']) ?>" placeholder="Công dụng" required>
-        <input type="number" name="dongia" value="<?= htmlspecialchars($medicine['dongia']) ?>" placeholder="Đơn giá (VND)" step="0.01" required min="0">
-        <input type="number" name="soluongton" value="<?= htmlspecialchars($medicine['soluongton']) ?>" placeholder="Số lượng tồn" required min="0">
-        <input type="date" name="hansudung" value="<?= htmlspecialchars($medicine['hansudung']) ?>" required>
-
-        <label>Loại thuốc:</label>
-        <input type="number" name="maloai" value="<?= htmlspecialchars($medicine['maloai']) ?>" placeholder="Mã loại thuốc" required min="1">
-
-        <label>Nhà sản xuất:</label>
-        <select name="mahangsx" required>
-            <?php foreach ($manufacturers as $manufacturer): ?>
-                <option value="<?= htmlspecialchars($manufacturer['mahangsx']) ?>" <?= ($medicine['mahangsx'] == $manufacturer['mahangsx']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($manufacturer['tenhang']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <label>Nhà cung cấp:</label>
-        <select name="manhacungcap" required>
-            <?php foreach ($suppliers as $supplier): ?>
-                <option value="<?= htmlspecialchars($supplier['manhacungcap']) ?>" <?= ($medicine['manhacungcap'] == $supplier['manhacungcap']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($supplier['tennhacungcap']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <button type="submit">Lưu thay đổi</button>
-    </form>
-    <a href="/medicine">Quay lại danh sách</a>
+    
+    <div class="card p-4 shadow-sm mx-auto" style="max-width: 500px;">
+        <form action="/medicine/edit/<?= $medicine['mathuoc'] ?>" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Tên thuốc</label>
+                <input type="text" name="tenthuoc" value="<?= htmlspecialchars($medicine['tenthuoc']) ?>" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Công dụng</label>
+                <input type="text" name="congdung" value="<?= htmlspecialchars($medicine['congdung']) ?>" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Đơn giá (VND)</label>
+                <input type="number" name="dongia" value="<?= htmlspecialchars($medicine['dongia']) ?>" class="form-control" step="0.01" required min="0">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Số lượng tồn</label>
+                <input type="number" name="soluongton" value="<?= htmlspecialchars($medicine['soluongton']) ?>" class="form-control" required min="0">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Hạn sử dụng</label>
+                <input type="date" name="hansudung" value="<?= htmlspecialchars($medicine['hansudung']) ?>" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Loại thuốc</label>
+                <input type="number" name="maloai" value="<?= htmlspecialchars($medicine['maloai']) ?>" class="form-control" required min="1">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Nhà sản xuất</label>
+                <select name="mahangsx" class="form-select" required>
+                    <?php foreach ($manufacturers as $manufacturer): ?>
+                        <option value="<?= htmlspecialchars($manufacturer['mahangsx']) ?>" <?= ($medicine['mahangsx'] == $manufacturer['mahangsx']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($manufacturer['tenhang']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Nhà cung cấp</label>
+                <select name="manhacungcap" class="form-select" required>
+                    <?php foreach ($suppliers as $supplier): ?>
+                        <option value="<?= htmlspecialchars($supplier['manhacungcap']) ?>" <?= ($medicine['manhacungcap'] == $supplier['manhacungcap']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($supplier['tennhacungcap']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Lưu thay đổi</button>
+        </form>
+    </div>
+    
+    <div class="text-center mt-3">
+        <a href="/medicine" class="btn btn-secondary">Quay lại danh sách</a>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
