@@ -9,4 +9,5 @@ class StatisticalController
     {
         require PAGES_DIR . "/statistical.php";
     }
+
 }

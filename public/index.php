@@ -8,7 +8,18 @@ session_start();
 
 $router = new \Bramus\Router\Router();
 $router->setNamespace("\App\Controllers");
-//Trang thống kê
+
+// Khởi tạo controller và truyền PDO vào
+$authController = new \App\Controllers\AuthController($pdo);
+
+// Trang thống kê
 $router->get("/statistical", "StatisticalController@index");
+
+// Trang đăng nhập, đăng ký
+$router->get("/login", [$authController, "showLoginForm"]);
+$router->post("/login", [$authController, "login"]);
+$router->get("/register", [$authController, "showRegisterForm"]);
+$router->post("/register", [$authController, "register"]);
+$router->get("/logout", [$authController, "logout"]);
 
 $router->run();

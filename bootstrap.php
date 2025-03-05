@@ -1,13 +1,18 @@
 <?php
-require_once 'vendor/autoload.php';
+
+require_once __DIR__ . '/vendor/autoload.php'; // Đúng đường dẫn
+
 try {
-    $PDO = (new App\Models\PDOFactory())->create([
-        'dbhost' => "localhost:3306",
-        'dbname' => "nha_thuoc",
-        'dbuser' => "root",
-        'dbpass' => "root",
-    ]);
-} catch (Exception $ex) {
-    echo 'Không thể kết nối đến MySQL,
-          kiểm tra lại username/password đến MySQL.<br>';
+    // Cấu hình database
+    $dbhost = "localhost";
+    $dbname = "nha_thuoc";
+    $dbuser = "root";
+    $dbpass = "";
+
+    // Tạo kết nối PDO
+    $pdo = new PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4", $dbuser, $dbpass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+} catch (PDOException $ex) {
+    die('Không thể kết nối đến MySQL. Lỗi: ' . $ex->getMessage());
 }
