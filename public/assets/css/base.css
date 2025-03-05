@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+
+:root {
+    --primary-color: #009B49;
+    --black-title: #333333;
+    --grey-text: #888888;
+    --red-sale: #C92127;
+    --grey-bg: #F0F0F0;
+    --font: "Roboto", sans-serif;
+    --white-bg: #ffffff;
+    --grey-light: #CDCFD0;
+    --white-bg: #F0F0F0;
+    --red-price: #FF4C58;
+    --yellow-star: #FFC70D;
+    --grey-text-2: #666;
+    --yellow-dark: #F6A500;
+    --dark-green: #008000;
+    --grey-border: #C5C5C5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+html {
+    font-size: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+span {
+    display: inline-block;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+a {
+    display: inline-block;
+}
+
+i {
+    display: inline-block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
