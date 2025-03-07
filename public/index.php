@@ -10,5 +10,7 @@ $router = new \Bramus\Router\Router();
 $router->setNamespace("\App\Controllers");
 //Trang thống kê
 $router->get("/statistical", "StatisticalController@index");
-
+$router->get("/revenueByWeek", "StatisticalController@revenueByWeek");
+$router->get("/revenueByDay", "StatisticalController@revenueByDay");
+$router->get("/revenueByMonth", "StatisticalController@revenueByMonth");
 $router->run();
