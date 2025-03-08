@@ -168,11 +168,30 @@ class MedicineController {
     public function exportExcel() {
         try {
             $medicines = $this->model->getAllMedicines();
-
+            $categories = $this->model->getAllCategories();
+            $manufacturers = $this->model->getAllManufacturers();
+            $suppliers = $this->model->getAllSuppliers();
+    
+            // Tạo mapping để lấy tên loại thuốc, nhà sản xuất, nhà cung cấp từ mã
+            $categoryMap = [];
+            foreach ($categories as $category) {
+                $categoryMap[$category['maloai']] = $category['tenloai'];
+            }
+    
+            $manufacturerMap = [];
+            foreach ($manufacturers as $manufacturer) {
+                $manufacturerMap[$manufacturer['mahangsx']] = $manufacturer['tenhang'];
+            }
+    
+            $supplierMap = [];
+            foreach ($suppliers as $supplier) {
+                $supplierMap[$supplier['manhacungcap']] = $supplier['tennhacungcap'];
+            }
+    
             // Tạo mới một spreadsheet
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
-
+    
             // Đặt tiêu đề cột
             $sheet->setCellValue('A1', 'ID');
             $sheet->setCellValue('B1', 'Tên thuốc');
@@ -180,10 +199,10 @@ class MedicineController {
             $sheet->setCellValue('D1', 'Đơn giá (VND)');
             $sheet->setCellValue('E1', 'Số lượng tồn');
             $sheet->setCellValue('F1', 'Hạn sử dụng');
-            $sheet->setCellValue('G1', 'Loại');
+            $sheet->setCellValue('G1', 'Loại thuốc');
             $sheet->setCellValue('H1', 'Nhà sản xuất');
             $sheet->setCellValue('I1', 'Nhà cung cấp');
-
+    
             // Điền dữ liệu
             $row = 2;
             foreach ($medicines as $medicine) {
@@ -192,24 +211,29 @@ class MedicineController {
                 $sheet->setCellValue('C' . $row, $medicine['congdung']);
                 $sheet->setCellValue('D' . $row, $medicine['dongia']);
                 $sheet->setCellValue('E' . $row, $medicine['soluongton']);
-                $sheet->setCellValue('F' . $row, $medicine['hansudung']);
-                $sheet->setCellValue('G' . $row, $medicine['maloai']);
-                $sheet->setCellValue('H' . $row, $medicine['mahangsx']);
-                $sheet->setCellValue('I' . $row, $medicine['manhacungcap']);
+                
+                // Định dạng ngày tháng năm
+                $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($medicine['hansudung']));
+                $sheet->setCellValue('F' . $row, $dateValue);
+                $sheet->getStyle('F' . $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+                
+                $sheet->setCellValue('G' . $row, $categoryMap[$medicine['maloai']] ?? 'Không xác định');
+                $sheet->setCellValue('H' . $row, $manufacturerMap[$medicine['mahangsx']] ?? 'Không xác định');
+                $sheet->setCellValue('I' . $row, $supplierMap[$medicine['manhacungcap']] ?? 'Không xác định');
                 $row++;
             }
-
+    
             // Định dạng cột đơn giá thành số tiền
             $sheet->getStyle('D2:D' . ($row - 1))->getNumberFormat()->setFormatCode('#,##0');
-
+    
             // Tạo writer để xuất file Excel
             $writer = new Xlsx($spreadsheet);
-
+    
             // Đặt header để trình duyệt tải file
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="danh_sach_thuoc.xlsx"');
             header('Cache-Control: max-age=0');
-
+    
             // Xuất file
             $writer->save('php://output');
             exit;
@@ -218,4 +242,6 @@ class MedicineController {
             exit;
         }
     }
+    
+    
 }

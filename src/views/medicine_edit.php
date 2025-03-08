@@ -11,11 +11,11 @@ try {
     die("Lỗi: Không thể kết nối cơ sở dữ liệu - " . $e->getMessage());
 }
 
-// Lấy ID từ URL (Pretty URL hoặc Query String)
+// Lấy ID từ URL
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if (!$id && isset($_SERVER['REQUEST_URI'])) {
     $parts = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-    $id = intval(end($parts)); // Lấy ID cuối cùng trong URL
+    $id = intval(end($parts));
 }
 
 // Kiểm tra ID hợp lệ
@@ -32,6 +32,7 @@ if (!$medicine) {
 
 $manufacturers = $model->getAllManufacturers();
 $suppliers = $model->getAllSuppliers();
+$categories = $model->getAllCategories();
 
 // Xử lý lỗi (nếu có) từ MedicineController
 $error = "";
@@ -85,12 +86,20 @@ if (isset($_GET['error'])) {
             
             <div class="mb-3">
                 <label class="form-label">Loại thuốc</label>
-                <input type="number" name="maloai" value="<?= htmlspecialchars($medicine['maloai']) ?>" class="form-control" required min="1">
+                <select class="form-select" id="maloai" name="maloai" required>
+                    <option value="" disabled selected>Vui lòng chọn loại thuốc</option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?= htmlspecialchars($category['maloai']) ?>" <?= ($medicine['maloai'] == $category['maloai']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($category['tenloai']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             
             <div class="mb-3">
                 <label class="form-label">Nhà sản xuất</label>
                 <select name="mahangsx" class="form-select" required>
+                    <option value="" disabled selected>Vui lòng chọn nhà sản xuất</option>
                     <?php foreach ($manufacturers as $manufacturer): ?>
                         <option value="<?= htmlspecialchars($manufacturer['mahangsx']) ?>" <?= ($medicine['mahangsx'] == $manufacturer['mahangsx']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($manufacturer['tenhang']) ?>
@@ -102,6 +111,7 @@ if (isset($_GET['error'])) {
             <div class="mb-3">
                 <label class="form-label">Nhà cung cấp</label>
                 <select name="manhacungcap" class="form-select" required>
+                    <option value="" disabled selected>Vui lòng chọn nhà cung cấp</option>
                     <?php foreach ($suppliers as $supplier): ?>
                         <option value="<?= htmlspecialchars($supplier['manhacungcap']) ?>" <?= ($medicine['manhacungcap'] == $supplier['manhacungcap']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($supplier['tennhacungcap']) ?>

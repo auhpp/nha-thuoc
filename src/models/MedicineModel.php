@@ -37,7 +37,16 @@ class MedicineModel {
             throw new Exception("Lỗi truy vấn nhà cung cấp: " . $e->getMessage());
         }
     }
-    
+    // Lấy tất cả các loại thuốc
+public function getAllCategories() {
+    try {
+        $stmt = $this->pdo->query("SELECT maloai, tenloai FROM loaithuoc");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception("Lỗi truy vấn loại thuốc: " . $e->getMessage());
+    }
+}
+
     // Lấy tất cả các loại thuốc
     public function getAllMedicines() {
         try {
@@ -63,20 +72,20 @@ class MedicineModel {
     // Thêm thuốc mới
     public function addMedicine($data) {
         try {
-            // Kiểm tra các trường bắt buộc
+       
             if (empty($data['tenthuoc']) || empty($data['dongia']) || empty($data['soluongton'])) {
                 throw new Exception("Tên thuốc, đơn giá, và số lượng tồn không được để trống.");
             }
 
-            // Lấy dữ liệu với giá trị mặc định nếu không tồn tại
+           
             $tenthuoc = htmlspecialchars($data['tenthuoc'] ?? '');
             $congdung = htmlspecialchars($data['congdung'] ?? '');
-            $dongia = floatval($data['dongia'] ?? 0); // Chuyển thành số thực, mặc định là 0
-            $soluongton = intval($data['soluongton'] ?? 0); // Chuyển thành số nguyên, mặc định là 0
-            $hansudung = $data['hansudung'] ?? date('Y-m-d', strtotime('+1 year')); // Giá trị mặc định là 1 năm từ bây giờ
-            $maloai = $data['maloai'] ?? null; // Có thể NULL nếu không yêu cầu bắt buộc
-            $mahangsx = $data['mahangsx'] ?? null; // Có thể NULL nếu không yêu cầu bắt buộc
-            $manhacungcap = $data['manhacungcap'] ?? null; // Có thể NULL nếu không yêu cầu bắt buộc
+            $dongia = floatval($data['dongia'] ?? 0);
+            $soluongton = intval($data['soluongton'] ?? 0); 
+            $hansudung = $data['hansudung'] ?? date('Y-m-d', strtotime('+1 year')); 
+            $maloai = $data['maloai'] ?? null; 
+            $mahangsx = $data['mahangsx'] ?? null; 
+            $manhacungcap = $data['manhacungcap'] ?? null; 
 
             // Chuẩn bị và thực thi câu lệnh INSERT
             $stmt = $this->pdo->prepare("INSERT INTO thuoc (tenthuoc, congdung, dongia, soluongton, hansudung, maloai, mahangsx, manhacungcap) 
@@ -138,6 +147,17 @@ class MedicineModel {
             throw new Exception("Lỗi cập nhật thuốc: " . $e->getMessage());
         }
     }
+// Tìm kiếm thuốc theo tên, ID hoặc công dụng
+public function searchMedicines($keyword) {
+    try {
+        $keyword = "%{$keyword}%"; // Thêm ký tự % để tìm kiếm một phần
+        $stmt = $this->pdo->prepare("SELECT * FROM thuoc WHERE mathuoc LIKE ? OR tenthuoc LIKE ? OR congdung LIKE ?");
+        $stmt->execute([$keyword, $keyword, $keyword]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception("Lỗi tìm kiếm thuốc: " . $e->getMessage());
+    }
+}
 
     // Xóa thuốc
     public function deleteMedicine($id) {
