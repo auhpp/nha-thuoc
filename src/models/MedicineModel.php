@@ -174,7 +174,7 @@ public function searchMedicines($keyword) {
         }
     }
        // Tính tổng giá trị của một loại thuốc (số lượng * đơn giá)
-       public function getTotalValue($medicineId)
+    /*   public function getTotalValue($medicineId)
        {
            $stmt = $this->pdo->prepare("SELECT dongia, soluongton FROM thuoc WHERE mathuoc = ?");
            $stmt->execute([$medicineId]);
@@ -185,27 +185,54 @@ public function searchMedicines($keyword) {
            }
    
            return 0;
-       }
-   
+       }*/
+       public function getTotalValue($medicineId) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT get_total_value(?) AS total_value");
+            $stmt->execute([$medicineId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total_value'] ?? 0; 
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi khi lấy tổng giá trị thuốc: " . $e->getMessage());
+        }
+    }
+   /* public function getTotalMedicineTypes()
+    {
+        $stmt = $this->pdo->query("SELECT COUNT(*) AS total FROM thuoc");
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    // Tính tổng số lượng tất cả thuốc
+    public function getTotalMedicineQuantity()
+    {
+        $stmt = $this->pdo->query("SELECT SUM(soluongton) AS total FROM thuoc");
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    // Tính tổng giá trị của tất cả thuốc trong kho
+    public function getTotalMedicineValue()
+    {
+        $stmt = $this->pdo->query("SELECT SUM(dongia * soluongton) AS total FROM thuoc");
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }*/
        // Tính tổng số loại thuốc
-       public function getTotalMedicineTypes()
-       {
-           $stmt = $this->pdo->query("SELECT COUNT(*) AS total FROM thuoc");
-           return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-       }
-   
-       // Tính tổng số lượng tất cả thuốc
-       public function getTotalMedicineQuantity()
-       {
-           $stmt = $this->pdo->query("SELECT SUM(soluongton) AS total FROM thuoc");
-           return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-       }
-   
-       // Tính tổng giá trị của tất cả thuốc trong kho
-       public function getTotalMedicineValue()
-       {
-           $stmt = $this->pdo->query("SELECT SUM(dongia * soluongton) AS total FROM thuoc");
-           return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-       }
+       public function getTotalMedicineQuantity() {
+        $stmt = $this->pdo->prepare("CALL GetTotalMedicineQuantity()");
+        $stmt->execute();
+        return $stmt->fetchColumn(); // Lấy giá trị trả về
+    }
+    
+    public function getTotalMedicineTypes() {
+        $stmt = $this->pdo->prepare("CALL GetTotalMedicineTypes()");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function getTotalMedicineValue() {
+        $stmt = $this->pdo->prepare("CALL GetTotalMedicineValue()");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
     
 }

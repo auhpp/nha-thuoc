@@ -174,11 +174,14 @@ class MedicineController
     {
         try {
             $medicines = $this->model->getAllMedicines();
+            usort($medicines, function ($a, $b) {
+                return $a['maloai'] <=> $b['maloai'];
+            });
             $categories = $this->model->getAllCategories();
             $manufacturers = $this->model->getAllManufacturers();
             $suppliers = $this->model->getAllSuppliers();
 
-            // Tạo bảng ánh xạ ID -> Tên
+            // Tạo mảng map cho các danh sách
             $categoryMap = array_column($categories, 'tenloai', 'maloai');
             $manufacturerMap = array_column($manufacturers, 'tenhang', 'mahangsx');
             $supplierMap = array_column($suppliers, 'tennhacungcap', 'manhacungcap');
@@ -209,12 +212,12 @@ class MedicineController
                 $sheet->setCellValue('D' . $row, $medicine['dongia']);
                 $sheet->setCellValue('E' . $row, $medicine['soluongton']);
 
-                // Định dạng ngày tháng
+                
                 $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($medicine['hansudung']));
                 $sheet->setCellValue('F' . $row, $dateValue);
                 $sheet->getStyle('F' . $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
 
-                // Điền tên danh mục, nhà sản xuất, nhà cung cấp
+                
                 $sheet->setCellValue('G' . $row, $categoryMap[$medicine['maloai']] ?? 'Không xác định');
                 $sheet->setCellValue('H' . $row, $manufacturerMap[$medicine['mahangsx']] ?? 'Không xác định');
                 $sheet->setCellValue('I' . $row, $supplierMap[$medicine['manhacungcap']] ?? 'Không xác định');
@@ -229,7 +232,9 @@ class MedicineController
             }
 
             // Tính tổng số loại thuốc
-            $totalMedicinesCount = count($medicines);
+            $uniqueCategories = array_unique(array_column($medicines, 'maloai'));
+            $totalMedicinesCount = count($uniqueCategories);
+            
 
             // Thêm dòng tổng số loại thuốc
             $sheet->setCellValue('G' . $row, 'Tổng số loại thuốc:');
