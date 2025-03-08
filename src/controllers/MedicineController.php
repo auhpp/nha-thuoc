@@ -95,13 +95,12 @@ class MedicineController {
             exit;
         }
 
-        $error = ""; // Khởi tạo biến lỗi
+        $error = ""; 
         $manufacturers = $this->model->getAllManufacturers();
         $suppliers = $this->model->getAllSuppliers();
 
-        // Kiểm tra nếu là POST request để xử lý cập nhật thuốc
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Lấy dữ liệu từ $_POST một cách an toàn
+     
             $tenthuoc = $_POST['tenthuoc'] ?? '';
             $congdung = $_POST['congdung'] ?? '';
             $dongia = $_POST['dongia'] ?? '';
@@ -111,13 +110,13 @@ class MedicineController {
             $mahangsx = $_POST['mahangsx'] ?? '';
             $manhacungcap = $_POST['manhacungcap'] ?? '';
             
-            if (!empty($tenthuoc) && !empty($dongia) && !empty($soluongton)) { // Kiểm tra thêm soluongton
+            if (!empty($tenthuoc) && !empty($dongia) && !empty($soluongton)) { 
                 $data = [
                     'mathuoc' => $id,
                     'tenthuoc' => $tenthuoc,
                     'congdung' => $congdung,
-                    'dongia' => floatval($dongia), // Chuyển thành số thực
-                    'soluongton' => intval($soluongton), // Chuyển thành số nguyên
+                    'dongia' => floatval($dongia), 
+                    'soluongton' => intval($soluongton), 
                     'hansudung' => $hansudung,
                     'maloai' => $maloai,
                     'mahangsx' => $mahangsx,
@@ -167,12 +166,13 @@ class MedicineController {
     // Xuất danh sách thuốc ra file Excel
     public function exportExcel() {
         try {
+            // Lấy dữ liệu thuốc từ model
             $medicines = $this->model->getAllMedicines();
             $categories = $this->model->getAllCategories();
             $manufacturers = $this->model->getAllManufacturers();
             $suppliers = $this->model->getAllSuppliers();
     
-            // Tạo mapping để lấy tên loại thuốc, nhà sản xuất, nhà cung cấp từ mã
+            // Tạo bảng ánh xạ ID với tên danh mục, nhà sản xuất, nhà cung cấp
             $categoryMap = [];
             foreach ($categories as $category) {
                 $categoryMap[$category['maloai']] = $category['tenloai'];
@@ -188,11 +188,11 @@ class MedicineController {
                 $supplierMap[$supplier['manhacungcap']] = $supplier['tennhacungcap'];
             }
     
-            // Tạo mới một spreadsheet
+            // Khởi tạo file Excel
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
     
-            // Đặt tiêu đề cột
+            // Tiêu đề cột
             $sheet->setCellValue('A1', 'ID');
             $sheet->setCellValue('B1', 'Tên thuốc');
             $sheet->setCellValue('C1', 'Công dụng');
@@ -202,8 +202,17 @@ class MedicineController {
             $sheet->setCellValue('G1', 'Loại thuốc');
             $sheet->setCellValue('H1', 'Nhà sản xuất');
             $sheet->setCellValue('I1', 'Nhà cung cấp');
-            $sheet->getStyle('A1:I1')->getFont()->setBold(true);
-            // Điền dữ liệu
+            $sheet->setCellValue('J1', 'Tổng tiền (VND)');
+    
+            // Định dạng tiêu đề
+            $sheet->getStyle('A1:J1')->getFont()->setBold(true);
+    
+            // Khởi tạo biến tổng
+            $totalAllMedicines = 0; // Tổng tiền tất cả thuốc
+            $totalQuantity = 0; // Tổng số lượng thuốc
+            $totalMedicinesCount = count($medicines); // Tổng số loại thuốc
+    
+            // Duyệt danh sách thuốc và điền dữ liệu
             $row = 2;
             foreach ($medicines as $medicine) {
                 $sheet->setCellValue('A' . $row, $medicine['mathuoc']);
@@ -211,25 +220,57 @@ class MedicineController {
                 $sheet->setCellValue('C' . $row, $medicine['congdung']);
                 $sheet->setCellValue('D' . $row, $medicine['dongia']);
                 $sheet->setCellValue('E' . $row, $medicine['soluongton']);
-                
+    
                 // Định dạng ngày tháng năm
                 $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($medicine['hansudung']));
                 $sheet->setCellValue('F' . $row, $dateValue);
                 $sheet->getStyle('F' . $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
-                
+    
                 $sheet->setCellValue('G' . $row, $categoryMap[$medicine['maloai']] ?? 'Không xác định');
                 $sheet->setCellValue('H' . $row, $manufacturerMap[$medicine['mahangsx']] ?? 'Không xác định');
                 $sheet->setCellValue('I' . $row, $supplierMap[$medicine['manhacungcap']] ?? 'Không xác định');
+    
+                // Tính tổng tiền cho từng loại thuốc
+                $totalPrice = $medicine['dongia'] * $medicine['soluongton'];
+                $sheet->setCellValue('J' . $row, $totalPrice);
+    
+                // Định dạng số tiền
+                $sheet->getStyle('D' . $row . ':J' . $row)->getNumberFormat()->setFormatCode('#,##0');
+    
+                // Cộng dồn tổng số lượng và tổng tiền
+                $totalQuantity += $medicine['soluongton'];
+                $totalAllMedicines += $totalPrice;
+    
                 $row++;
             }
     
-            // Định dạng cột đơn giá thành số tiền
-            $sheet->getStyle('D2:D' . ($row - 1))->getNumberFormat()->setFormatCode('#,##0');
+            // Thêm dòng tổng vào cuối bảng
+            $row++;
     
-            // Tạo writer để xuất file Excel
+            $sheet->setCellValue('G' . $row, 'Tổng số loại thuốc:');
+            $sheet->setCellValue('H' . $row, $totalMedicinesCount);
+            $sheet->getStyle('G' . $row)->getFont()->setBold(true);
+            $sheet->getStyle('H' . $row)->getFont()->setBold(true);
+    
+            $row++;
+    
+            $sheet->setCellValue('G' . $row, 'Tổng số lượng thuốc:');
+            $sheet->setCellValue('H' . $row, $totalQuantity);
+            $sheet->getStyle('G' . $row)->getFont()->setBold(true);
+            $sheet->getStyle('H' . $row)->getFont()->setBold(true);
+    
+            $row++;
+    
+            $sheet->setCellValue('G' . $row, 'Tổng tiền tất cả:');
+            $sheet->setCellValue('H' . $row, $totalAllMedicines);
+            $sheet->getStyle('G' . $row)->getFont()->setBold(true);
+            $sheet->getStyle('H' . $row)->getFont()->setBold(true);
+            $sheet->getStyle('H' . $row)->getNumberFormat()->setFormatCode('#,##0');
+    
+            // Xuất file Excel
             $writer = new Xlsx($spreadsheet);
     
-            // Đặt header để trình duyệt tải file
+
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="danh_sach_thuoc.xlsx"');
             header('Cache-Control: max-age=0');
@@ -242,6 +283,8 @@ class MedicineController {
             exit;
         }
     }
+    
+    
     
     
 }

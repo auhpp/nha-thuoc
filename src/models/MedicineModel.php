@@ -173,4 +173,15 @@ public function searchMedicines($keyword) {
             throw new Exception("Lỗi xóa thuốc: " . $e->getMessage());
         }
     }
+    public function getTotalValue($mathuoc) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT get_total_value(?) AS total_value");
+            $stmt->execute([$mathuoc]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? floatval($result['total_value']) : 0;
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi khi gọi function get_total_value: " . $e->getMessage());
+        }
+    }
+    
 }
