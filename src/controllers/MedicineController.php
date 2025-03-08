@@ -202,7 +202,7 @@ class MedicineController {
             $sheet->setCellValue('G1', 'Loại thuốc');
             $sheet->setCellValue('H1', 'Nhà sản xuất');
             $sheet->setCellValue('I1', 'Nhà cung cấp');
-    
+            $sheet->getStyle('A1:I1')->getFont()->setBold(true);
             // Điền dữ liệu
             $row = 2;
             foreach ($medicines as $medicine) {
