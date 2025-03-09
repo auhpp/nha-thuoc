@@ -13,12 +13,12 @@ $router->setNamespace("\App\Controllers");
 $router->get('/statistical', 'StatisticalController@index');
 
 // Quản lý thuốc
-$router->get('/medicine', 'MedicineController@index'); // Danh sách thuốc
-$router->get('/medicine/add', 'MedicineController@add'); // Hiển thị form thêm thuốc
-$router->post('/medicine/add', 'MedicineController@add'); // Xử lý thêm thuốc
+$router->get('/medicine', 'MedicineController@index'); 
+$router->get('/medicine/add', 'MedicineController@add'); 
+$router->post('/medicine/add', 'MedicineController@add'); 
 
-$router->get('/medicine/edit/(\d+)', 'MedicineController@edit'); // Hiển thị form chỉnh sửa thuốc
-$router->post('/medicine/edit/(\d+)', 'MedicineController@edit'); // Xử lý cập nhật thuốc
+$router->get('/medicine/edit/(\d+)', 'MedicineController@edit'); 
+$router->post('/medicine/edit/(\d+)', 'MedicineController@edit'); 
 $router->get('/medicine/export', 'MedicineController@exportExcel'); // Xuất Excel
-$router->post('/medicine/delete', 'MedicineController@delete'); // Xử lý xóa thuốc (dùng POST để gửi ID qua form)
+$router->post('/medicine/delete', 'MedicineController@delete'); 
 $router->run();
