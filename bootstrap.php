@@ -5,7 +5,7 @@ try {
         'dbhost' => "localhost:3306",
         'dbname' => "nha_thuoc",
         'dbuser' => "root",
-        'dbpass' => "",
+        'dbpass' => "root",
     ]);
 } catch (Exception $ex) {
     echo 'Không thể kết nối đến MySQL,
