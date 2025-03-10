@@ -5,6 +5,10 @@
         }
     },
     "require": {
-        "bramus/router": "^1.6"
+        "bramus/router": "^1.6",
+        "phpoffice/phpspreadsheet": "^4.1"
+    },
+    "config": {
+        "apcu-autoloader": true
     }
 }
