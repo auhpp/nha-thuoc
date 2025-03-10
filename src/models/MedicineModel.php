@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use PDO;
@@ -7,10 +8,12 @@ use Exception;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-class MedicineModel {
+class MedicineModel
+{
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $PDO;
         if (!$PDO) {
             die("Lỗi kết nối CSDL.");
@@ -19,7 +22,8 @@ class MedicineModel {
     }
 
     // Lấy tất cả các nhà sản xuất
-    public function getAllManufacturers() {
+    public function getAllManufacturers()
+    {
         try {
             $stmt = $this->pdo->query("SELECT * FROM hangsanxuat");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,7 +33,8 @@ class MedicineModel {
     }
 
     // Lấy tất cả các nhà cung cấp
-    public function getAllSuppliers() {
+    public function getAllSuppliers()
+    {
         try {
             $stmt = $this->pdo->query("SELECT * FROM nhacungcap");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,17 +43,19 @@ class MedicineModel {
         }
     }
     // Lấy tất cả các loại thuốc
-public function getAllCategories() {
-    try {
-        $stmt = $this->pdo->query("SELECT maloai, tenloai FROM loaithuoc");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        throw new Exception("Lỗi truy vấn loại thuốc: " . $e->getMessage());
+    public function getAllCategories()
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT maloai, tenloai FROM loaithuoc");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi truy vấn loại thuốc: " . $e->getMessage());
+        }
     }
-}
 
     // Lấy tất cả các loại thuốc
-    public function getAllMedicines() {
+    public function getAllMedicines()
+    {
         try {
             $stmt = $this->pdo->query("SELECT * FROM thuoc");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -58,7 +65,8 @@ public function getAllCategories() {
     }
 
     // Lấy thuốc theo ID
-    public function getMedicineById($id) {
+    public function getMedicineById($id)
+    {
         if (!$id) return null; // Tránh lỗi ID null
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM thuoc WHERE mathuoc = ?");
@@ -68,24 +76,25 @@ public function getAllCategories() {
             throw new Exception("Lỗi truy vấn thuốc: " . $e->getMessage());
         }
     }
-    
+
     // Thêm thuốc mới
-    public function addMedicine($data) {
+    public function addMedicine($data)
+    {
         try {
-       
+
             if (empty($data['tenthuoc']) || empty($data['dongia']) || empty($data['soluongton'])) {
                 throw new Exception("Tên thuốc, đơn giá, và số lượng tồn không được để trống.");
             }
 
-           
+
             $tenthuoc = htmlspecialchars($data['tenthuoc'] ?? '');
             $congdung = htmlspecialchars($data['congdung'] ?? '');
             $dongia = floatval($data['dongia'] ?? 0);
-            $soluongton = intval($data['soluongton'] ?? 0); 
-            $hansudung = $data['hansudung'] ?? date('Y-m-d', strtotime('+1 year')); 
-            $maloai = $data['maloai'] ?? null; 
-            $mahangsx = $data['mahangsx'] ?? null; 
-            $manhacungcap = $data['manhacungcap'] ?? null; 
+            $soluongton = intval($data['soluongton'] ?? 0);
+            $hansudung = $data['hansudung'] ?? date('Y-m-d', strtotime('+1 year'));
+            $maloai = $data['maloai'] ?? null;
+            $mahangsx = $data['mahangsx'] ?? null;
+            $manhacungcap = $data['manhacungcap'] ?? null;
 
             // Chuẩn bị và thực thi câu lệnh INSERT
             $stmt = $this->pdo->prepare("INSERT INTO thuoc (tenthuoc, congdung, dongia, soluongton, hansudung, maloai, mahangsx, manhacungcap) 
@@ -107,7 +116,8 @@ public function getAllCategories() {
     }
 
     // Cập nhật thuốc
-    public function updateMedicine($data) {
+    public function updateMedicine($data)
+    {
         try {
             // Kiểm tra ID hợp lệ
             if (empty($data['mathuoc'])) {
@@ -147,20 +157,22 @@ public function getAllCategories() {
             throw new Exception("Lỗi cập nhật thuốc: " . $e->getMessage());
         }
     }
-// Tìm kiếm thuốc theo tên, ID hoặc công dụng
-public function searchMedicines($keyword) {
-    try {
-        $keyword = "%{$keyword}%"; // Thêm ký tự % để tìm kiếm một phần
-        $stmt = $this->pdo->prepare("SELECT * FROM thuoc WHERE mathuoc LIKE ? OR tenthuoc LIKE ? OR congdung LIKE ?");
-        $stmt->execute([$keyword, $keyword, $keyword]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        throw new Exception("Lỗi tìm kiếm thuốc: " . $e->getMessage());
+    // Tìm kiếm thuốc theo tên, ID hoặc công dụng
+    public function searchMedicines($keyword)
+    {
+        try {
+            $keyword = "%{$keyword}%"; // Thêm ký tự % để tìm kiếm một phần
+            $stmt = $this->pdo->prepare("SELECT * FROM thuoc WHERE mathuoc LIKE ? OR tenthuoc LIKE ? OR congdung LIKE ?");
+            $stmt->execute([$keyword, $keyword, $keyword]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi tìm kiếm thuốc: " . $e->getMessage());
+        }
     }
-}
 
     // Xóa thuốc
-    public function deleteMedicine($id) {
+    public function deleteMedicine($id)
+    {
         try {
             if (!$id) {
                 throw new Exception("ID không hợp lệ.");
@@ -173,7 +185,7 @@ public function searchMedicines($keyword) {
             throw new Exception("Lỗi xóa thuốc: " . $e->getMessage());
         }
     }
-       // Tính tổng giá trị của một loại thuốc (số lượng * đơn giá)
+    // Tính tổng giá trị của một loại thuốc (số lượng * đơn giá)
     /*   public function getTotalValue($medicineId)
        {
            $stmt = $this->pdo->prepare("SELECT dongia, soluongton FROM thuoc WHERE mathuoc = ?");
@@ -186,17 +198,18 @@ public function searchMedicines($keyword) {
    
            return 0;
        }*/
-       public function getTotalValue($medicineId) {
+    public function getTotalValue($medicineId)
+    {
         try {
             $stmt = $this->pdo->prepare("SELECT get_total_value(?) AS total_value");
             $stmt->execute([$medicineId]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['total_value'] ?? 0; 
+            return $result['total_value'] ?? 0;
         } catch (PDOException $e) {
             throw new Exception("Lỗi khi lấy tổng giá trị thuốc: " . $e->getMessage());
         }
     }
-   /* public function getTotalMedicineTypes()
+    /* public function getTotalMedicineTypes()
     {
         $stmt = $this->pdo->query("SELECT COUNT(*) AS total FROM thuoc");
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
@@ -215,24 +228,25 @@ public function searchMedicines($keyword) {
         $stmt = $this->pdo->query("SELECT SUM(dongia * soluongton) AS total FROM thuoc");
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }*/
-       // Tính tổng số loại thuốc
-       public function getTotalMedicineQuantity() {
+    // Tính tổng số loại thuốc
+    public function getTotalMedicineQuantity()
+    {
         $stmt = $this->pdo->prepare("CALL GetTotalMedicineQuantity()");
         $stmt->execute();
         return $stmt->fetchColumn(); // Lấy giá trị trả về
     }
-    
-    public function getTotalMedicineTypes() {
+
+    public function getTotalMedicineTypes()
+    {
         $stmt = $this->pdo->prepare("CALL GetTotalMedicineTypes()");
         $stmt->execute();
         return $stmt->fetchColumn();
     }
-    
-    public function getTotalMedicineValue() {
+
+    public function getTotalMedicineValue()
+    {
         $stmt = $this->pdo->prepare("CALL GetTotalMedicineValue()");
         $stmt->execute();
         return $stmt->fetchColumn();
     }
-    
-    
 }
