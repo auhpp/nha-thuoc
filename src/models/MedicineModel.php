@@ -17,10 +17,6 @@ class MedicineModel
     public int $medicineInventory;
     public string $medicineExpiry;
 
-    public function __construct() {
-        global $PDO;
-        $this->pdo = $PDO;;
-    }
     public function __construct()
     {
         global $PDO;
