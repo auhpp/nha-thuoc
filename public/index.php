@@ -13,6 +13,7 @@ $router->get("/statistical", "StatisticalController@index");
 $router->get("/revenueByWeek", "StatisticalController@revenueByWeek");
 $router->get("/revenueByDay", "StatisticalController@revenueByDay");
 $router->get("/revenueByMonth", "StatisticalController@revenueByMonth");
+$router->get("/medicine_search", "MedicineController@index");
 $router->get("/medicine_searchByCategory/{category}", "MedicineController@getMedicinesByCategory");
 $router->get("/medicine_searchByHSX/{hsx}", "MedicineController@getMedicinesByHSX");
 $router->get("/medicine_searchByNCC/{ncc}", "MedicineController@getMedicinesByNCC");
