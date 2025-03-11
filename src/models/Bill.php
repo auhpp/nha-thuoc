@@ -12,6 +12,7 @@ class Bill
 
     private int $id = -1;
     private string $customerName;
+    private string $phoneNumber;
     private string $createdAt;
     private string $amount;
 
@@ -20,12 +21,21 @@ class Bill
     {
         $this->db = $pdo;
     }
+    function __get($name)
+    {
+        return $this->$name;
+    }
 
+    function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
     private function fillFromDbRow(array $row): Bill
     {
         [
             'mahoadon' => $this->id,
             'tenkhachhang' => $this->customerName,
+            'sodienthoai' => $this->phoneNumber,
             'ngaylap' => $this->createdAt,
             'tongtien' => $this->amount
         ] = $row;
@@ -33,7 +43,7 @@ class Bill
     }
 
 
-    //Thong ke theo ngay
+    //Thong ke theo hoa don
     public function getRevenue($date = null, $startDate = null, $endDate = null, $month = null, $year = null)
     {
 
@@ -50,7 +60,6 @@ class Bill
             $where .= " AND MONTH(hd.ngayLap) = :monthRe  AND YEAR(hd.ngayLap) = :yearRe";
         }
         $query .= $where;
-        echo $query;
         $statement = $this->db->prepare($query);
         if ($date != null) {
             $statement->execute([
@@ -138,7 +147,7 @@ class Bill
         $query = "SELECT kh.makhachhang, kh.tenkhachhang, kh.sodienthoai, SUM(hd.tongtien) AS sotien
                     from hoadon hd INNER JOIN khachhang kh ON hd.makhachhang = kh.makhachhang 
         ";
-        $where = " WHERE 1 = 1 ";    
+        $where = " WHERE 1 = 1 ";
         if ($date != null) {
             $where .= " AND hd.ngaylap = :ngayLap ";
         } else if ($startDate != null && $endDate != null) {
@@ -179,5 +188,24 @@ class Bill
         }
 
         return $customerResponses;
+    }
+
+    //Lay tong doanh thu
+    function getTotalMoney($date = null, $startDate = null, $endDate = null, $month = null, $year = null)
+    {
+
+        $query = "SELECT tong_doanh_thu(:ngayLap, :startDate, :endDate, :monthRe, :yearRe)";
+        $statement = $this->db->prepare($query);
+        $statement->execute([
+            "ngayLap" => $date,
+            "startDate" => $startDate,
+            "endDate" => $endDate,
+            "monthRe" => $month,
+            "yearRe" => $year
+        ]);
+
+        $total = $statement->fetchColumn();
+
+        return $total;
     }
 }

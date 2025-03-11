@@ -8,6 +8,19 @@ session_start();
 
 $router = new \Bramus\Router\Router();
 $router->setNamespace("\App\Controllers");
+
+
+// Quản lý thuốc
+$router->get('/medicine', 'MedicineController@index');
+$router->get('/medicine/add', 'MedicineController@add');
+$router->post('/medicine/add', 'MedicineController@add');
+
+$router->get('/medicine/edit/(\d+)', 'MedicineController@edit');
+$router->post('/medicine/edit/(\d+)', 'MedicineController@edit');
+$router->get('/medicine/export', 'MedicineController@exportExcel'); // Xuất Excel
+$router->post('/medicine/delete', 'MedicineController@delete');
+
+
 //Trang thống kê
 $router->get("/statistical", "StatisticalController@index");
 $router->get("/revenueByWeek", "StatisticalController@revenueByWeek");
@@ -17,4 +30,5 @@ $router->get("/medicine_search", "MedicineController@index");
 $router->get("/medicine_searchByCategory/{category}", "MedicineController@getMedicinesByCategory");
 $router->get("/medicine_searchByHSX/{hsx}", "MedicineController@getMedicinesByHSX");
 $router->get("/medicine_searchByNCC/{ncc}", "MedicineController@getMedicinesByNCC");
+$router->get("/statistical/export", "StatisticalController@exportRevenueExcel");
 $router->run();
