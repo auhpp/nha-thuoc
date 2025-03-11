@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../bootstrap.php';
 require_once __DIR__ . '/../models/MedicineModel.php';
 use App\Models\MedicineModel;
+use App\Models\Notification;
 try {
     $model = new MedicineModel();
 } catch (Exception $e) {
@@ -31,6 +32,8 @@ $medicines = array_slice($medicines, $offset, $limit);
 
 $status = $_GET['status'] ?? '';
 $message = $_GET['message'] ?? '';
+
+$notifications = (new Notification())->getNotifications(5);
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +44,7 @@ $message = $_GET['message'] ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý thuốc</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="\assets\css\style.css">
     <style>
         .container {
@@ -92,12 +96,12 @@ $message = $_GET['message'] ?? '';
         .total-summary i {
             font-size: 22px;
         }
+
     </style>
 </head>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <body class="container mt-4">
     <h2 class="text-center mb-4 header-title">📋 Danh sách thuốc</h2>
-
     <?php if (!empty($status) && !empty($message)): ?>
         <div id="alert-message"
             class="alert <?= $status === 'success' ? 'alert-success' : 'alert-danger' ?> alert-dismissible fade show"
@@ -113,10 +117,23 @@ $message = $_GET['message'] ?? '';
             }, 5000);
         </script>
     <?php endif; ?>
-
     <div class="d-flex justify-content-start gap-2 mb-3">
         <a href="/medicine/add" class="btn btn-primary">✚ Thêm thuốc</a>
         <a href="/medicine/export" class="btn btn-success">📥 Xuất Excel</a>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-bell"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <?php foreach($notifications as $notification): ?>
+                    <h4 class="dropdown-item">
+                        <i class="fa-solid fa-triangle-exclamation"></i> 
+                        <?= $notification->content ?>
+                    </h4>
+                    <!-- <li><a class="dropdown-item" href="#">Action</a></li> -->
+                <?php endforeach ?>
+            </ul>
+        </div>
     </div>
 
 
@@ -223,8 +240,10 @@ $message = $_GET['message'] ?? '';
             <?php endfor; ?>
         </ul>
     </nav>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        console.log(typeof bootstrap);
+    </script>
 </body>
 
 </html>

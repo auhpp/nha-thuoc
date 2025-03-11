@@ -56,6 +56,16 @@
                 </table>
             </div>
         </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bell"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -73,8 +83,8 @@
         let url = baseUrl.replace("{param}", encodeURIComponent(searchInput)); // Thay thế {param} bằng giá trị tìm kiếm
 
         window.location.href = url; // Chuyển hướng đến URL mới
+        });
     });
-});
     </script>
 </body>
 </html>
