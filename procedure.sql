@@ -21,3 +21,36 @@ BEGIN
     SELECT SUM(dongia * soluongton) AS total_value FROM thuoc;
 END$$
 DELIMITER ;
+
+DELIMITER //
+	CREATE PROCEDURE GetMedicinesByCategory(IN ten_loai_thuoc VARCHAR(255))
+    BEGIN
+		SELECT thuoc.mathuoc, thuoc.tenthuoc, thuoc.congdung, thuoc.dongia, thuoc.soluongton, thuoc.hansudung
+        FROM thuoc
+        join loaithuoc on thuoc.maloai = loaithuoc.maloai
+        where loaithuoc.tenloai = ten_loai_thuoc COLLATE utf8mb4_general_ci;
+    END //
+DELIMITER ;
+
+
+DELIMITER //
+	CREATE PROCEDURE GetMedicinesByHSX(IN ten_hsx VARCHAR(255))
+    BEGIN 
+		SELECT thuoc.mathuoc, thuoc.tenthuoc, thuoc.congdung, thuoc.dongia, thuoc.soluongton, thuoc.hansudung
+        FROM thuoc
+        JOIN hangsanxuat on thuoc.mahangsx = hangsanxuat.mahangsx
+        WHERE hangsanxuat.tenhang = ten_hsx COLLATE utf8mb4_general_ci;
+	END //
+DELIMITER ;
+
+
+DELIMITER //
+	CREATE PROCEDURE GetMedicinesByNCC(IN ten_ncc VARCHAR(255))
+    BEGIN
+		SELECT thuoc.mathuoc, thuoc.tenthuoc, thuoc.congdung, thuoc.dongia, thuoc.soluongton, thuoc.hansudung
+        FROM thuoc
+        JOIN nhacungcap on thuoc.manhacungcap = nhacungcap.manhacungcap
+        WHERE nhacungcap.tennhacungcap = ten_ncc COLLATE utf8mb4_general_ci;
+	END //
+DELIMITER ; 
+
