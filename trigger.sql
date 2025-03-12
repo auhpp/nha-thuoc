@@ -42,7 +42,6 @@ ON SCHEDULE EVERY 1 DAY
 STARTS CURRENT_TIMESTAMP
 DO
 BEGIN
-	SET SQL_SAFE_UPDATES = 0;
     -- Cập nhật trạng thái thuốc hết hạn
     UPDATE thuoc
     SET trang_thai = 'Hết hạn'
@@ -53,7 +52,6 @@ BEGIN
     SELECT CONCAT('Thuốc ', tenthuoc, ' đã hết hạn vào ngày ', hansudung)
     FROM thuoc
     WHERE hansudung <= CURDATE();
-    SET SQL_SAFE_UPDATES = 1;
 END;
 //
 
