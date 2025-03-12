@@ -6,7 +6,7 @@ try {
     $dbhost = "localhost";
     $dbname = "nha_thuoc";
     $dbuser = "root";
-    $dbpass = "root";
+    $dbpass = "";
 
     $PDO = new PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4", $dbuser, $dbpass);
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
