@@ -10,7 +10,7 @@ $router = new \Bramus\Router\Router();
 $router->setNamespace("\App\Controllers");
 
 
-$authController = new \App\Controllers\AuthController($pdo);
+$authController = new \App\Controllers\AuthController($PDO);
 
 $router->get("/login", [$authController, "showLoginForm"]);
 $router->post("/login", [$authController, "login"]);
@@ -18,7 +18,6 @@ $router->get("/register", [$authController, "showRegisterForm"]);
 $router->post("/register", [$authController, "register"]);
 $router->get("/logout", [$authController, "logout"]);
 
-=======
 
 // Quản lý thuốc
 $router->get('/medicine', 'MedicineController@index');
