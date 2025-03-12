@@ -18,8 +18,6 @@ $router->get("/register", [$authController, "showRegisterForm"]);
 $router->post("/register", [$authController, "register"]);
 $router->get("/logout", [$authController, "logout"]);
 
-=======
-
 // Quản lý thuốc
 $router->get('/medicine', 'MedicineController@index');
 $router->get('/medicine/add', 'MedicineController@add');
