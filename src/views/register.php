@@ -6,7 +6,7 @@
     <title>Đăng ký</title>
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/auth.css">
-    <?php require_once __DIR__ . '/header.php'; ?>
+   
 </head>
 <body>
     <div class="container">

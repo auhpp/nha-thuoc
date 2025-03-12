@@ -28,7 +28,7 @@ class AuthController {
             $account = new Account($this->pdo);
             if ($account->authenticate($username, $password)) {
                 $_SESSION["user"] = $username;
-                header("Location: /statistical");
+                header("Location: /medicine");
                 exit;
             } else {
                 $_SESSION["error_message"] = "Sai tên đăng nhập hoặc mật khẩu!";

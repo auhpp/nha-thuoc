@@ -17,11 +17,12 @@ if (isset($dateRequest)) {
     <title>Thống kê</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.8/r-3.0.2/sp-2.3.1/datatables.min.css" rel="stylesheet">
+    <?php require_once __DIR__ . '/header.php'; ?>
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/statistical.css">
-    <?php require_once __DIR__ . '/header.php'; ?>
+    
 </head>
-<body>
+<body> 
     <div class="container">
         <div class="inner-content">
             <!-- <h1 class="head-title">Thống kê</h1> -->

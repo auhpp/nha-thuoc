@@ -48,8 +48,6 @@ $notifications = (new Notification())->getNotifications(5);
     <link rel="stylesheet" href="\assets\css\style.css">
     <?php require_once __DIR__ . '/header.php'; ?>
     <style>
-      
-
         .table th,
         .table td {
             vertical-align: middle;
@@ -99,7 +97,8 @@ $notifications = (new Notification())->getNotifications(5);
     </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<body class="container mt-4">
+<body>
+    <div class="container mt-4">
     <h2 class="text-center mb-4 header-title">📋 Danh sách thuốc</h2>
     <?php if (!empty($status) && !empty($message)): ?>
         <div id="alert-message"
@@ -243,6 +242,7 @@ $notifications = (new Notification())->getNotifications(5);
     <script>
         console.log(typeof bootstrap);
     </script>
+    </div>
 </body>
 
 </html>

@@ -11,6 +11,7 @@ $router->setNamespace("\App\Controllers");
 
 
 $authController = new \App\Controllers\AuthController($PDO);
+$router->get("/", [$authController, "showLoginForm"]);
 
 $router->get("/login", [$authController, "showLoginForm"]);
 $router->post("/login", [$authController, "login"]);
