@@ -15,14 +15,14 @@
         <div class="row">
             <div class="col-md-6 mx-auto search">
                 <input class="search-input" placeholder="Tìm kiếm sản phẩm"/>
-                <div class="dropdown col-md-4 options">
-                    <button class="btn btn-secondary dropdown-toggle search-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="options">
+                    <button class="search-btn">
                         <h4>Tìm kiếm theo</h4>
                     </button>
-                    <ul class="dropdown-menu options-list">
-                        <li><a class="dropdown-item" href="#" data-url="/medicine_searchByCategory/{param}">Loại thuốc</a></li>
-                        <li><a class="dropdown-item" href="#" data-url="/medicine_searchByHSX/{param}">Hãng sản xuất</a></li>
-                        <li><a class="dropdown-item" href="#" data-url="/medicine_searchByNCC/{param}">Nhà cung cấp</a></li>
+                    <ul class="options-list">
+                        <li><a class="menu-item" href="#" data-url="/medicine_searchByCategory/{param}">Loại thuốc</a></li>
+                        <li><a class="menu-item" href="#" data-url="/medicine_searchByHSX/{param}">Hãng sản xuất</a></li>
+                        <li><a class="menu-item" href="#" data-url="/medicine_searchByNCC/{param}">Nhà cung cấp</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,20 +57,10 @@
                 </table>
             </div>
         </div>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-bell"></i>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelectorAll(".dropdown-menu .dropdown-item").forEach(item => {
+        document.querySelectorAll(".menu-item").forEach(item => {
         item.addEventListener("click", function(event) {
         event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
 

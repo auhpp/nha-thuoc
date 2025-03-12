@@ -94,6 +94,31 @@ $notifications = (new Notification())->getNotifications(5);
             font-size: 22px;
         }
 
+        .notification {
+            position: relative;
+        }
+
+        .btn-notification {
+            border: 1px solid #ccc;
+        }
+
+        .notification:hover .notifications {
+            display: flex;
+        }
+
+        .notifications {
+            padding: 0 5px;
+            border: 1px solid #ccc;
+            position: absolute;
+            font-size: 16px;
+            display: none;
+        }
+
+        .content {
+            font-size: 16px;
+            margin: 0 5px;
+        }
+
     </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -118,18 +143,15 @@ $notifications = (new Notification())->getNotifications(5);
     <div class="d-flex justify-content-start gap-2 mb-3">
         <a href="/medicine/add" class="btn btn-primary">✚ Thêm thuốc</a>
         <a href="/medicine/export" class="btn btn-success">📥 Xuất Excel</a>
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="notification">
+            <button class="btn-notification">
                 <i class="fa-solid fa-bell"></i>
             </button>
-            <ul class="dropdown-menu">
-                <?php foreach($notifications as $notification): ?>
-                    <h4 class="dropdown-item">
-                        <i class="fa-solid fa-triangle-exclamation"></i> 
-                        <?= $notification->content ?>
+            <ul class="notifications">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h4 class="content">
+                        Hellooooooooooooooooooooooo
                     </h4>
-                    <!-- <li><a class="dropdown-item" href="#">Action</a></li> -->
-                <?php endforeach ?>
             </ul>
         </div>
     </div>
