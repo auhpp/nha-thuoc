@@ -19,7 +19,7 @@ if (isset($dateRequest)) {
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.8/r-3.0.2/sp-2.3.1/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/statistical.css">
-
+    <?php require_once __DIR__ . '/header.php'; ?>
 </head>
 
 <body>
