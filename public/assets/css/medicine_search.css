@@ -6,20 +6,50 @@
 
 .search input {
     width: 70%;
+    height: 40px;
+    font-size: 18px;
 }
 .options {
     margin: 0 10px;
     height: 25.9px;
     width: 30%;
+    position: relative;
 }
 .options .search-btn {
     height: 100%;
     font-size: 18px;
     text-align: center;
     background-color: var(--primary-color);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    color: #fff;
 }
+
 
 .options .options-list {
     width: 200px;
+    padding: 0 5px;
     font-size: 16px;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 10;
+    display: none;
+}
+
+.options:hover .options-list {
+    display: block;
+}
+.options-list a{
+    width: 100%;
+    text-decoration: none;
+    color: #000;
+}
+
+.options-list a:hover {
+    background-color: #ccc;
+}
+.result {
+    z-index: 1;
 }
