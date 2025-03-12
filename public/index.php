@@ -10,7 +10,7 @@ $router = new \Bramus\Router\Router();
 $router->setNamespace("\App\Controllers");
 
 
-$authController = new \App\Controllers\AuthController($pdo);
+$authController = new \App\Controllers\AuthController($PDO);
 
 $router->get("/login", [$authController, "showLoginForm"]);
 $router->post("/login", [$authController, "login"]);
