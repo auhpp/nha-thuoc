@@ -4,7 +4,7 @@ if (isset($dateRequest)) {
     $pathExport = "/statistical/export?day=" . $dateRequest;
 } else if (isset($weekRequest)) {
     $pathExport = "/statistical/export?week=" . $weekRequest;
-} else {
+} else if (isset($monthRequest)) {
     $pathExport = "/statistical/export?month=" . $monthRequest;
 }
 ?>
@@ -21,7 +21,6 @@ if (isset($dateRequest)) {
     <link rel="stylesheet" href="/assets/css/statistical.css">
     <?php require_once __DIR__ . '/header.php'; ?>
 </head>
-
 <body>
     <div class="container">
         <div class="inner-content">
@@ -60,7 +59,7 @@ if (isset($dateRequest)) {
             <div class="result-table">
                 <!-- Table Starts Here -->
                 <h3 class="title">Doanh thu dựa theo hóa đơn</h3>
-                <a href=<?= $pathExport ?> class="btn btn-export btn-large btn-success">📥 Xuất Excel</a>
+                <a href="<?= $pathExport ?>" class="btn btn-export btn-large btn-success">📥 Xuất Excel</a>
                 <table id="bill-table" class="table table-striped table-bordered">
                     <thead>
                         <tr>

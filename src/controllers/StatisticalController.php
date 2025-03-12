@@ -45,7 +45,6 @@ class StatisticalController
     }
 
 
-
     public function revenueByDay()
     {
         $dateRequest = $_GET['day'];
