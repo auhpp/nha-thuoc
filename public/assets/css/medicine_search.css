@@ -1,0 +1,25 @@
+.search{
+    display: flex;
+    align-items: center;
+    height: 100px;
+}
+
+.search input {
+    width: 70%;
+}
+.options {
+    margin: 0 10px;
+    height: 25.9px;
+    width: 30%;
+}
+.options .search-btn {
+    height: 100%;
+    font-size: 18px;
+    text-align: center;
+    background-color: var(--primary-color);
+}
+
+.options .options-list {
+    width: 200px;
+    font-size: 16px;
+}
