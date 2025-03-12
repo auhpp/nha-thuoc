@@ -44,6 +44,8 @@ class StatisticalController
         require PAGES_DIR . "/statistical.php";
     }
 
+
+=======
     public function revenueByDay()
     {
         $dateRequest = $_GET['day'];
