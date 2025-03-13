@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/medicine_search.css">
     <?php require_once __DIR__ . '/header.php'; ?>
+    <style>
+        th, td {
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 

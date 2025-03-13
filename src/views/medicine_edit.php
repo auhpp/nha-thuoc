@@ -51,8 +51,8 @@ if (isset($_GET['error'])) {
     <link rel="stylesheet" href="\assets\css\style1.css">
     <?php require_once __DIR__ . '/header.php'; ?>
 </head>
-<body class="container mt-4">
-    <h2 class="text-center">✏️ Chỉnh sửa thuốc</h2>
+<body class="">
+    <h2 class="mt-4 text-center">✏️ Chỉnh sửa thuốc</h2>
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger" role="alert">
             <?= $error ?>

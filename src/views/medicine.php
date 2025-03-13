@@ -118,7 +118,10 @@ $notifications = (new Notification())->getNotifications(5);
             font-size: 16px;
             margin: 0 5px;
         }
-
+        #table-header th {
+            background-color: #009B49;
+            color: white;
+        }
     </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -141,7 +144,7 @@ $notifications = (new Notification())->getNotifications(5);
         </script>
     <?php endif; ?>
     <div class="d-flex justify-content-start gap-2 mb-3">
-        <a href="/medicine/add" class="btn btn-primary">✚ Thêm thuốc</a>
+        <a href="/medicine/add" class="btn btn-primary" style="background-color: #009B49;">✚ Thêm thuốc</a>
         <a href="/medicine/export" class="btn btn-success">📥 Xuất Excel</a>
         <div class="notification">
             <button class="btn-notification">
@@ -150,7 +153,7 @@ $notifications = (new Notification())->getNotifications(5);
             <ul class="notifications">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <h4 class="content">
-                        Hellooooooooooooooooooooooo
+                        
                     </h4>
             </ul>
         </div>
@@ -167,7 +170,7 @@ $notifications = (new Notification())->getNotifications(5);
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-striped">
             <thead>
-                <tr>
+                <tr id="table-header">
                     <th>ID</th>
                     <th>Tên thuốc</th>
                     <th>Công dụng</th>
