@@ -103,25 +103,44 @@ $notifications = (new Notification())->getNotifications(5);
         }
 
         .notification:hover .notifications {
-            display: flex;
+            display: block;
         }
 
         .notifications {
             padding: 0 5px;
             border: 1px solid #ccc;
             position: absolute;
+            background-color: #fff;
             font-size: 16px;
             display: none;
+            width: 450px;
         }
 
+        .notifications li {
+            list-style: none;
+            display: flex;
+            padding: 10px;
+        }
+
+        .notifications li:hover{
+            background-color: #ccc;
+        }
         .content {
             font-size: 16px;
             margin: 0 5px;
         }
+
+
+        .notification-icon {
+            color: red;
+        }
+
+
         #table-header th {
             background-color: #009B49;
             color: white;
         }
+
     </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -150,12 +169,18 @@ $notifications = (new Notification())->getNotifications(5);
             <button class="btn-notification">
                 <i class="fa-solid fa-bell"></i>
             </button>
-            <ul class="notifications">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <h4 class="content">
-                        
-                    </h4>
-            </ul>
+            <?php if(sizeof($notifications) != 0): ?>
+                <ul class="notifications">
+                        <?php foreach ($notifications as $notification): ?>
+                        <li>
+                            <i class="fa-solid fa-triangle-exclamation notification-icon"></i>
+                            <h4 class="content">
+                                <?= $notification->content?>
+                            </h4>
+                        </li>
+                        <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
         </div>
     </div>
 
