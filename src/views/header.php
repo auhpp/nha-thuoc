@@ -51,7 +51,7 @@
     <header style="height: 68px;">
         <nav id="he" class="navbar navbar-expand-lg navbar-dark "style="background-color: #009B49; color: white; height: 68px;">
             <div class="container fo" style="max-width: 100%;height: 68px;padding: 0 12px;">
-                <a id="he1" class="navbar-brand" href="medicine" style="font-size: 28px;">Nhà Thuốc</a>
+                <a id="he1" class="navbar-brand" href="/medicine" style="font-size: 28px;">Nhà Thuốc</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

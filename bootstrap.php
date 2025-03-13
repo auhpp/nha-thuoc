@@ -4,9 +4,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 try {
     $dbhost = "localhost";
-    $dbname = "quanlynhathuoc";
+    $dbname = "nha_thuoc";
     $dbuser = "root";
-    $dbpass = "Nhannghia@2004";
+    $dbpass = "";
 
     $PDO = new PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4", $dbuser, $dbpass);
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
