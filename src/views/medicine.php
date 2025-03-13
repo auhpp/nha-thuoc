@@ -130,8 +130,15 @@ $notifications = (new Notification())->getNotifications(5);
             margin: 0 5px;
         }
 
+
         .notification-icon {
             color: red;
+        }
+
+
+        #table-header th {
+            background-color: #009B49;
+            color: white;
         }
 
     </style>
@@ -156,7 +163,7 @@ $notifications = (new Notification())->getNotifications(5);
         </script>
     <?php endif; ?>
     <div class="d-flex justify-content-start gap-2 mb-3">
-        <a href="/medicine/add" class="btn btn-primary">✚ Thêm thuốc</a>
+        <a href="/medicine/add" class="btn btn-primary" style="background-color: #009B49;">✚ Thêm thuốc</a>
         <a href="/medicine/export" class="btn btn-success">📥 Xuất Excel</a>
         <div class="notification">
             <button class="btn-notification">
@@ -188,7 +195,7 @@ $notifications = (new Notification())->getNotifications(5);
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-striped">
             <thead>
-                <tr>
+                <tr id="table-header">
                     <th>ID</th>
                     <th>Tên thuốc</th>
                     <th>Công dụng</th>
