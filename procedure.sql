@@ -28,7 +28,8 @@ DELIMITER //
 		SELECT thuoc.mathuoc, thuoc.tenthuoc, thuoc.congdung, thuoc.dongia, thuoc.soluongton, thuoc.hansudung
         FROM thuoc
         join loaithuoc on thuoc.maloai = loaithuoc.maloai
-        where loaithuoc.tenloai = ten_loai_thuoc COLLATE utf8mb4_general_ci;
+        where loaithuoc.tenloai = ten_loai_thuoc COLLATE utf8mb4_general_ci
+        ORDER BY thuoc.hansudung ASC;
     END //
 DELIMITER ;
 
@@ -39,7 +40,8 @@ DELIMITER //
 		SELECT thuoc.mathuoc, thuoc.tenthuoc, thuoc.congdung, thuoc.dongia, thuoc.soluongton, thuoc.hansudung
         FROM thuoc
         JOIN hangsanxuat on thuoc.mahangsx = hangsanxuat.mahangsx
-        WHERE hangsanxuat.tenhang = ten_hsx COLLATE utf8mb4_general_ci;
+        WHERE hangsanxuat.tenhang = ten_hsx COLLATE utf8mb4_general_ci
+        ORDER BY thuoc.hansudung ASC;
 	END //
 DELIMITER ;
 
@@ -50,7 +52,8 @@ DELIMITER //
 		SELECT thuoc.mathuoc, thuoc.tenthuoc, thuoc.congdung, thuoc.dongia, thuoc.soluongton, thuoc.hansudung
         FROM thuoc
         JOIN nhacungcap on thuoc.manhacungcap = nhacungcap.manhacungcap
-        WHERE nhacungcap.tennhacungcap = ten_ncc COLLATE utf8mb4_general_ci;
+        WHERE nhacungcap.tennhacungcap = ten_ncc COLLATE utf8mb4_general_ci
+        ORDER BY thuoc.hansudung ASC;
 	END //
 DELIMITER ; 
 
